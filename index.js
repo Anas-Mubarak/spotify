@@ -5,6 +5,9 @@ let subtext
 let fbclose = document.querySelector('.close_floatingbox')
 let fb = document.querySelector('.floatingbox')
 let placeholder = `<div style = "display:flex;align-items:center;justify-content:center; height:100%; background-color:rgb(40, 40, 40);" class = "placeholder"><svg xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" data-encore-id="icon" role="img" aria-hidden="true" class="e-91000-icon e-91000-baseline xBQRDMmxlfN1Il74AAyS" data-testid="album" viewBox="0 0 24 24" width="46" height="46"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18M1 12C1 5.925 5.925 1 12 1s11 4.925 11 11-4.925 11-11 11S1 18.075 1 12" fill="#B3B3B3"></path><path d="M12 10a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-4 2a4 4 0 1 1 8 0 4 4 0 0 1-8 0" fill="#B3B3B3"></path></svg></div>`
+let shadow = document.createElement('div')
+shadow.classList.add('shadow')
+
 
 viewportkey()
 
@@ -24,66 +27,92 @@ function mainevent()
 {
     for(let i=0;i<subheadlist.length;i++)
     {
-    let subhead = document.createElement('div')
-    subhead.innerHTML = subheadlist[i] + `<div class="pconly showall">Show all</div>`
-    subhead.classList.add('flb_line2','subhead','valign-center')
-    scroll_container.appendChild(subhead)
-    let scrollbar = document.createElement('div')
-    scrollbar.classList.add('scrollbar')
-    if(i<subheadlist.length)
-    {
-        for(let j=0;j<subtext[i].length;j++)
+        let subhead = document.createElement('div')
+        subhead.innerHTML = subheadlist[i] + `<div class="pconly showall">Show all</div>`
+        subhead.classList.add('flb_line2','subhead','valign-center')
+        scroll_container.appendChild(subhead)
+        let scrollbar = document.createElement('div')
+        scrollbar.classList.add('scrollbar')
+        let shadowcontainer = document.createElement('div')
+        shadowcontainer.classList.add('shadowcontainer')
+        if(i<subheadlist.length)
         {
-            let scrollable = document.createElement('div')
-            scrollable.classList.add('col-flex','scrollable')
-            let scrollimage = document.createElement('div')
-            scrollimage.classList.add('scrollable-img')
+            for(let j=0;j<subtext[i].length;j++)
+            {
+                let scrollable = document.createElement('div')
+                scrollable.classList.add('col-flex','scrollable')
+                let scrollimage = document.createElement('div')
+                scrollimage.classList.add('scrollable-img')
 
-            if(subtext[i][j].caption1!=='')
-            {
-                console.log(i,j)
-                scrollimage.setAttribute('style',`--bg_img : url(assets/images/mob/r${i+1}/c${j+1}.jpeg)`)
-            }
-            else
-            {
-                scrollimage.innerHTML = placeholder
-            } 
-            let scrolltext = document.createElement('div')
-            scrolltext.classList.add('reg2text','scrollable-text')
-            scrolltext.innerHTML = subtext[i][j].caption1
-            scrollable.appendChild(scrollimage)
-            let scrolltext2 = document.createElement('div')  
-            scrolltext2.classList.add('reg2text','scrollable-text','scrollable-text2')
-            scrolltext2.innerHTML = subtext[i][j].caption2
-
-            if(key>1)
-            {
-                if(i==1)
+                if(subtext[i][j].caption1!=='')
                 {
-                    scrollimage.style.borderRadius = '50%'   
-                }
-                if(i<3)
-                {
-                    scrollable.appendChild(scrolltext)
+                    console.log(i,j)
+                    scrollimage.setAttribute('style',`--bg_img : url(assets/images/mob/r${i+1}/c${j+1}.jpeg)`)
                 }
                 else
                 {
-                    scrolltext2.style.marginTop =  4
+                    scrollimage.innerHTML = placeholder
+                } 
+                let scrolltext = document.createElement('div')
+                scrolltext.classList.add('reg2text','scrollable-text')
+                scrolltext.innerHTML = subtext[i][j].caption1
+                scrollable.appendChild(scrollimage)
+                let scrolltext2 = document.createElement('div')  
+                scrolltext2.classList.add('reg2text','scrollable-text','scrollable-text2')
+                scrolltext2.innerHTML = subtext[i][j].caption2
+
+                if(key>1)
+                {
+                    if(i==1)
+                    {
+                        scrollimage.style.borderRadius = '50%'   
+                    }
+                    if(i<3)
+                    {
+                        scrollable.appendChild(scrolltext)
+                    }
+                    else
+                    {
+                        scrolltext2.style.marginTop =  4
+                    }
+                    scrollable.appendChild(scrolltext2)
                 }
-                scrollable.appendChild(scrolltext2)
+                else{
+                    scrollable.appendChild(scrolltext)
+                }
+                scrollbar.appendChild(scrollable)
             }
-            else{
-                scrollable.appendChild(scrolltext)
-            }
-            scrollbar.appendChild(scrollable)
         }
-    }
-    console.log(scrollbar)
-    scroll_container.appendChild(scrollbar)
+        console.log(scrollbar)
+        shadowcontainer.appendChild(scrollbar)
+        scroll_container.appendChild(shadowcontainer)
     }
     fbclose.addEventListener('click',()=>{
-    fb.style.display = 'none'
-})
+        fb.style.display = 'none'
+    })
+    
+    document.querySelectorAll('.shadowcontainer').forEach(element => {
+        element.classList.add('shadowr')
+        element.firstElementChild.addEventListener('scroll',(e)=>{
+            if(e.target.scrollLeft>0)
+            {
+                element.classList.add('shadowl')
+                console.log(e.target.scrollWidth)
+                if(e.target.scrollWidth === e.target.scrollLeft+e.target.getClientRects()[0].width)
+                {
+                    console.log('hi')
+                    element.classList.remove('shadowr')
+                }
+                else{
+                    element.classList.add('shadowr')
+                }
+            }
+            else{
+                element.classList.remove('shadowl')
+            }
+        })
+    })
+
 }
 
 function viewportkey(){

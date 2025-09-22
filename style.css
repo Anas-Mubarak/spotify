@@ -112,6 +112,7 @@ body{
 .scrollbar_container{
     color: white;
     width: 100%;
+    position: relative;
 }
 
 .subhead{
@@ -276,6 +277,32 @@ body{
 
 .transofrm{
     will-change: transform;
+}
+
+.shadowcontainer{
+    position: relative;
+}
+
+.shadowl::before{
+    content: '';
+    position: absolute;
+    width: 120px;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 4;
+    background: linear-gradient(90deg, rgba(18, 18, 18, 0.7) 0px, rgba(0, 0, 0, 0) 100%);
+}
+
+.shadowr::after{
+    content: '';
+    position: absolute;
+    width: 120px;
+    height: 100%;
+    top: 0;
+    right: 0;
+    z-index: 4;
+    background: linear-gradient(-90deg, rgba(18, 18, 18, 0.7) 0px, rgba(0, 0, 0, 0) 100%);
 }
 
 @font-face {
@@ -582,22 +609,22 @@ body{
     margin-top: -4px;
     }
 
-    .scrollbar_container>.scrollbar:nth-child(2) 
+    .shadowcontainer:nth-child(2)>.scrollbar 
     {
         margin-bottom: 37px;
     }
     
-    .scrollbar_container>.scrollbar:nth-child(6) 
+    .shadowcontainer:nth-child(6)>.scrollbar 
     {
         margin-bottom: 38px;
     }
 
-    .scrollbar_container>.scrollbar:nth-child(8) 
+    .shadowcontainer:nth-child(8)>.scrollbar 
     {
         margin-bottom: 39px;
     }
     
-    .scrollbar_container>.scrollbar:nth-child(2) .scrollable-text2{ 
+    .shadowcontainer:nth-child(2)>.scrollbar .scrollable-text2{ 
         vertical-align: -webkit-baseline-middle;
         line-height: 1.6;
     }
@@ -644,19 +671,16 @@ body{
     }
 
     .cicontainer{
-        padding: 0  12px 0 12px;
+        padding: 0  11px 0 12px;
         margin-left: 181px;
         border-left: 1px solid rgb(140, 140, 140);
+        will-change: transform;
     } 
 
     .footer{
         will-change: transform;
         padding-bottom: 18px;
     }
-
-    /* .footersubtext.fhead:last-child{
-        margin-top: 0px;
-    } */
 }
 
 @media screen and (min-width:1900px){
@@ -678,19 +702,28 @@ body{
 
 @media screen and (min-width: 2560px){
     .subhead{
-        margin:23px 128px 12px 121px;
+        margin:23px 128.5px 12px 120.5px;
+        will-change: transform;
     }
-    .scrollbar_container>.scrollbar{
-        padding-left: 121px;
-        margin-bottom: 45px;
+    .shadowcontainer>.scrollbar{
+        padding-left: 120.5px;
+        margin-bottom: 47px;
+    }
+
+    .footerflex2>.copyright{
+        margin-top: -0.02px;
     }
     
-    .scrollbar_container>.scrollbar:nth-child(2){
+    .shadowcontainer:nth-child(2)>.scrollbar{
+        margin-bottom: 45.5px;
+    }
+    
+    .shadowcontainer:nth-child(6)>.scrollbar{
+        margin-bottom: 47.2px;
+    }
+
+    .shadowcontainer:nth-child(8)>.scrollbar{
         margin-bottom: 46px;
-    }
-    
-    .scrollbar_container>.scrollbar:nth-child(6){
-        margin-bottom: 48px;
     }
 
     .placeholder{
@@ -702,5 +735,21 @@ body{
         width: 64px;
         color: white;
         fill: white;
+    }
+
+    .headicon{
+        margin-left: -1px;
+    }
+
+    .footer-rule{
+        margin-bottom: 40px;
+    }
+
+    .footer-rule1{
+        margin-bottom: 24px;
+    }
+
+    .footer{
+        padding-bottom: 18px;
     }
 }
