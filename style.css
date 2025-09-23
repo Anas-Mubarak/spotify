@@ -680,7 +680,11 @@ body{
         margin-left: 181px;
         border-left: 1px solid rgb(140, 140, 140);
 
-    } 
+    }
+    
+     .footer-rule1{
+        margin:100.5px 23.5px 24px 23.5px;
+    }
 
     .footer{
         will-change: transform;
@@ -759,7 +763,7 @@ body{
     }
 
     .footer-rule1{
-        margin:100.5px 0 24px 0;
+        margin:100.5px 24px 24px 24px;
     }
 
     .footer{
