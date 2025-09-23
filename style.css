@@ -670,11 +670,16 @@ body{
         font-size: 16px;
     }
 
+    .collectionicon{
+        position: relative;
+        transform: translateY(0.4px);
+    }
+
     .cicontainer{
         padding: 0  11px 0 12px;
         margin-left: 181px;
         border-left: 1px solid rgb(140, 140, 140);
-        will-change: transform;
+
     } 
 
     .footer{
@@ -703,8 +708,16 @@ body{
 @media screen and (min-width: 2560px){
     .subhead{
         margin:23px 128.5px 12px 120.5px;
+        transform: translatex(-0.4px);
         will-change: transform;
     }
+
+    .scrollbar{
+        position: relative;
+        transform: translateY(0.165px);
+        will-change: transform;
+    }
+
     .shadowcontainer>.scrollbar{
         padding-left: 120.5px;
         margin-bottom: 47px;
@@ -719,11 +732,11 @@ body{
     }
     
     .shadowcontainer:nth-child(6)>.scrollbar{
-        margin-bottom: 47.2px;
+        margin-bottom: 47px;
     }
 
     .shadowcontainer:nth-child(8)>.scrollbar{
-        margin-bottom: 46px;
+        margin-bottom: 46.5px;
     }
 
     .placeholder{
@@ -746,10 +759,11 @@ body{
     }
 
     .footer-rule1{
-        margin-bottom: 24px;
+        margin:100.5px 0 24px 0;
     }
 
     .footer{
         padding-bottom: 18px;
+        will-change: transform;
     }
 }

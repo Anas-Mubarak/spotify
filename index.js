@@ -17,14 +17,13 @@ async function dataloader() {
         subtext = await response.json()
         mainevent()
     } catch (error) {
-        console.log('error',error)
+        console.log('error in loading json',error)
     }
 }
 
-dataloader()
-
 function mainevent()
 {
+    scroll_container.innerHTML = ''
     for(let i=0;i<subheadlist.length;i++)
     {
         let subhead = document.createElement('div')
@@ -35,87 +34,84 @@ function mainevent()
         scrollbar.classList.add('scrollbar')
         let shadowcontainer = document.createElement('div')
         shadowcontainer.classList.add('shadowcontainer')
-        if(i<subheadlist.length)
+        let jl = key>1&&i>0?Math.min(10,subtext[i].length) :subtext[i].length
+        for(let j=0;j<jl;j++)
         {
-            for(let j=0;j<subtext[i].length;j++)
-            {
-                let scrollable = document.createElement('div')
-                scrollable.classList.add('col-flex','scrollable')
-                let scrollimage = document.createElement('div')
-                scrollimage.classList.add('scrollable-img')
+            let scrollable = document.createElement('div')
+            scrollable.classList.add('col-flex','scrollable')
+            let scrollimage = document.createElement('div')
+            scrollimage.classList.add('scrollable-img')
 
-                if(subtext[i][j].caption1!=='')
+            if(subtext[i][j].caption1!=='')
+            { 
+                scrollimage.setAttribute('style',`--bg_img : url(assets/images/mob/r${i+1}/c${j+1}.jpeg)`)
+            }
+            else
+            {
+                scrollimage.innerHTML = placeholder
+            } 
+            let scrolltext = document.createElement('div')
+            scrolltext.classList.add('reg2text','scrollable-text')
+            scrolltext.innerHTML = subtext[i][j].caption1
+            scrollable.appendChild(scrollimage)
+            let scrolltext2 = document.createElement('div')  
+            scrolltext2.classList.add('reg2text','scrollable-text','scrollable-text2')
+            scrolltext2.innerHTML = subtext[i][j].caption2
+
+            if(key>1)
+            {
+                if(i==1)
                 {
-                    console.log(i,j)
-                    scrollimage.setAttribute('style',`--bg_img : url(assets/images/mob/r${i+1}/c${j+1}.jpeg)`)
+                    scrollimage.style.borderRadius = '50%'   
+                }
+                if(i<3)
+                {
+                    scrollable.appendChild(scrolltext)
                 }
                 else
                 {
-                    scrollimage.innerHTML = placeholder
-                } 
-                let scrolltext = document.createElement('div')
-                scrolltext.classList.add('reg2text','scrollable-text')
-                scrolltext.innerHTML = subtext[i][j].caption1
-                scrollable.appendChild(scrollimage)
-                let scrolltext2 = document.createElement('div')  
-                scrolltext2.classList.add('reg2text','scrollable-text','scrollable-text2')
-                scrolltext2.innerHTML = subtext[i][j].caption2
-
-                if(key>1)
+                    scrolltext2.style.marginTop =  4
+                }
+                scrollable.appendChild(scrolltext2)
+                document.querySelectorAll('.shadowcontainer').forEach(element => {
+                element.classList.add('shadowr')
+                element.firstElementChild.addEventListener('scroll',(e)=>{
+                if(e.target.scrollLeft>0)
                 {
-                    if(i==1)
+                    element.classList.add('shadowl')
+                    // console.log(e.target.scrollWidth)
+                    if(e.target.scrollWidth === e.target.scrollLeft+e.target.getClientRects()[0].width)
                     {
-                        scrollimage.style.borderRadius = '50%'   
+                        // console.log('hi')
+                        element.classList.remove('shadowr')
                     }
-                    if(i<3)
-                    {
-                        scrollable.appendChild(scrolltext)
+                    else{
+                        element.classList.add('shadowr')
                     }
-                    else
-                    {
-                        scrolltext2.style.marginTop =  4
-                    }
-                    scrollable.appendChild(scrolltext2)
                 }
                 else{
-                    scrollable.appendChild(scrolltext)
+                    element.classList.remove('shadowl')
                 }
-                scrollbar.appendChild(scrollable)
+                })
+                })
             }
+            else{
+                scrollimage.style.borderRadius = ''   
+                scrollable.appendChild(scrolltext)
+            }
+            scrollbar.appendChild(scrollable)
+            console.log(i,j)
         }
-        console.log(scrollbar)
         shadowcontainer.appendChild(scrollbar)
         scroll_container.appendChild(shadowcontainer)
     }
     fbclose.addEventListener('click',()=>{
         fb.style.display = 'none'
-    })
-    
-    document.querySelectorAll('.shadowcontainer').forEach(element => {
-        element.classList.add('shadowr')
-        element.firstElementChild.addEventListener('scroll',(e)=>{
-            if(e.target.scrollLeft>0)
-            {
-                element.classList.add('shadowl')
-                console.log(e.target.scrollWidth)
-                if(e.target.scrollWidth === e.target.scrollLeft+e.target.getClientRects()[0].width)
-                {
-                    console.log('hi')
-                    element.classList.remove('shadowr')
-                }
-                else{
-                    element.classList.add('shadowr')
-                }
-            }
-            else{
-                element.classList.remove('shadowl')
-            }
-        })
-    })
-
+    }) 
 }
 
 function viewportkey(){
+    console.log('1')
     if(window.matchMedia('(min-width: 2560px)').matches)
     {
         console.log('large pc')
@@ -126,6 +122,11 @@ function viewportkey(){
         console.log('small pc')
         key = 2
     }
+    else{
+        console.log('mob')
+        key=-1
+    }
+    dataloader()
 }
 
 window.addEventListener('resize',viewportkey)
